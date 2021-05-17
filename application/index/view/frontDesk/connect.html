@@ -1,0 +1,99 @@
+﻿{extend name='layout/public'}
+{block name='nav'}
+<div id="dis">
+    
+    <div class="modal-dialog" role=document>
+        <div class="modal-content" style="background-color:pink;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">关于我们</h4>
+            </div>
+            <div class="modal-body words-ctrl">
+                <form class="form-horizontal" action="/index/subdis" method="POST">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">地址</label>
+                        <div class="col-md-10">
+                            <input type="text" name="title" min="5" max="100" class="form-control" placeholder="至少输入5个字"
+                                disabled value="沈阳叩丁狼">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">电话号</label>
+                        <div class="col-md-10">
+                            <input type="text" name="title" min="5" max="100" class="form-control" placeholder="至少输入5个字"
+                                disabled value="12118418414">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">邮箱</label>
+                        <div class="col-md-10">
+                            <input type="text" name="title" min="5" max="100" class="form-control" placeholder="至少输入5个字"
+                                disabled value="945514928@qq.com">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+          
+        </div>
+    </div>
+</div>
+<div id="dis" >
+    
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">联系我们</h4>
+            </div>
+            <div >
+                <form class="form-horizontal" action="/index/addcon" method="POST">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">您的手机号</label>
+                        <div class="col-md-10">
+                            <input type="text" name="phone" min="5" max="100" class="form-control" placeholder="请真实填写您的手机号"
+                                >
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">真实姓名</label>
+                        <div class="col-md-10">
+                            <input type="text" name="user" min="5" max="100" class="form-control" placeholder="请真实填写您的手机号"
+                                >
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">试听的课程</label>
+                        <div class="col-md-10">
+                            <input type="text" name="course" min="5" max="100" class="form-control" placeholder="7天免费试听"
+                              >
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">邮箱</label>
+                        <div class="col-md-10">
+                            <input type="text" name="email" min="5" max="100" class="form-control" placeholder="请输入您的邮箱"
+                               >
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="submit-question btn btn-primary" data-dismiss="modal">提交</button>
+                    </div>
+                </form>
+            </div>
+          
+        </div>
+    </div>
+</div>
+{/block}
+{/extend}

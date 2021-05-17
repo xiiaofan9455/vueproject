@@ -1,0 +1,245 @@
+{extend name='layout/public'}
+{block name='nav'}
+<div class="container layout layout-margin-top">
+
+    <ol class="breadcrumb">
+        <li><a href="/questions/">讨论区</a></li>
+
+        <li><a href="/questions/?area_type=course">课程问答</a></li>
+
+        <li class="active">
+            <a href="/questions/8641">
+                {$res.title}
+            </a>
+        </li>
+    </ol>
+
+    <div class="row">
+        <div class="col-md-9 layout-body">
+
+            <div class="content question-detail">
+                <div class="question-headline">
+                    <span class="question-title">{$res.title}</span>
+                    <span class="question-figure">{$res.reply}回复</span><span
+                        class="question-figure">{$res.view}查看</span>
+                </div>
+                <div class="question-author">
+                    <div class="user-avatar ">
+                        <a class="avatar" href="/user/347060" target="_blank">
+                            <img src="/static/frontdesk/img/1471832001504.png">
+                        </a>
+
+                    </div>
+                    <div class="user-username ">
+                        <a class="username" href="/user/347060" target="_blank">
+                            {$res.name}
+                        </a>
+                        <span class="user-level">L4</span>
+                    </div>
+
+                    <span>{:date('Y-m-d H:i:s',$res.time)}</span>
+
+                    <span><a href="/questions/?area_type=course">课程问答</a></span>
+
+
+                    <span class="question-from">来自： <a href="/questions/courses/115">{if
+                            $res.level!=Null}管理员{else/}用户{/if}</a></span>
+
+
+                    <a href="#sign-modal" data-toggle="modal" data-sign="signin"
+                        class="btn btn-primary collectBtn">收藏</a>
+
+
+                </div>
+                <div class="question-content markdown-body">
+                    <p>{$res.cont}</p>
+
+
+
+                    <div class="labreport-detail-like">
+
+                        <span class="btn btn-default btn-weiboshare">
+                            <i class="fa fa-share-alt"></i>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="question-answers">
+                    <p class="ptilte">全部回复</p>
+                    <hr />
+
+                    {foreach $row as $k=>$v}
+                    <div class="answer-item">
+                        <div class="answer-head">
+                            <div class="user-avatar ">
+                                <a class="avatar" href="/user/212008" target="_blank">
+                                    <img src="/static/frontdesk/img/1471832001504.png">
+                                </a>
+
+                                <a class="member-icon" href="/vip" target="_blank">
+                                </a>
+
+                            </div>
+
+                        </div>
+                        <div class="answer-detail">
+                            <span class="comment-reply">
+                                <div class="user-username ">
+                                    {if $v.level=="超管"}
+                                    <span style="color: red;" class="user-level">{$v.level}</span>
+                                    {elseif $v.level=="一级管理员"/}
+                                    <span class="user-level">{$v.level}</span>
+                                    {else/}
+                                    <span class="user-level">{$v.level}</span>
+                                    {/if}
+                                    <p><a class="usern" href="#hui" zhi="{$v.id}">{$v.name}</a>
+
+                                        {if Session::get('uid')==$v['uid'] && $v.likes==1}
+                                        <span zhi=1 carid="{$res.id}" uid="{$v.id}" style="color:red;"
+                                            class="iconfont icon-zan like">{$v.like}</span>
+
+                                        {else/}
+                                        <span zhi=1 carid="{$res.id}" uid="{$v.id}"
+                                            class="iconfont icon-zan like">{$v.like}</span>
+                                        {/if}
+
+                                        <span carid="{$res.id}" zhi=0 uid="{$v.id}"
+                                            class="iconfont icon-cai1 tread">{$v.cai}</span>
+
+                                    </p>
+                                </div>
+                            </span>
+                            <div class="answer-content markdown-body" style="color:lightgreen;">
+                                {$v.cont}
+                            </div>
+                            <div>
+                                <span class="create-time">{:date('Y-m-d H:i:s',$v.time)}</span><br>
+                                <p>他的回复</p>
+                                {foreach $r as $kk=>$vv}
+                                {if $vv['pid']==$v['id']}
+                                <p>用户名:{$vv.hname}</p>
+                                <p>内容:{$vv.cont} <span>{:date('Y-m-d H:i:s',$vv['time'])}</span></p>
+
+                                {/if}
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+
+                </div>
+                <div class="your-answer words-ctrl">
+                    {if !Session::has('user')}
+                    <p style="text-align: center;font-weight: 300; font-size: 18px;">
+                        <a href="#sign-modal" data-toggle="modal" data-sign="signin"
+                            data-next="/questions/8641">登录</a>后回复帖子
+                    </p>
+                    {/if}
+                    {if $res.name!=Session::get('user') && Session::get('user')}
+                    <form action="/index/subreply" method="post" id="po">
+                        <a id="hui"></a>
+                        <div class="form-group">
+                            <div class="input-group" style="font-size:18px;color: tomato;">
+                                <textarea n='n' cols="60" name="cont" class="content"></textarea>
+                                <input type="hidden" name="pid" value="{$res.id}">
+                                <input type="hidden" name="tid" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="submit" value="发送">
+                        </div>
+                    </form>
+                    {/if}
+                </div>
+            </div>
+            <script src="/static/jquery-3.0.0.min.js"></script>
+            <script>
+
+                var t = $('[type=submit]').click(function () {
+                    var bb = $('[n=n]').val();
+                    if (bb.length < 3) {
+                        alert('最少输入三个字');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })
+
+                $('#po').submit(function () {
+                    return t;
+                })
+
+                // ajax回复
+                $('.usern').click(function () {
+                    var name = $(this).text();
+                    var zhi = $(this).attr('zhi');
+                    $('#hui').text(`正在回复:${name}`);
+                    var aaa = $('[name=tid]').val(zhi);
+                })
+
+                //赞功能的实现
+                $('.like').click(function () {
+                    let me = $(this);
+                    let zhi = me.attr("zhi");
+                    let next = me.next();
+                    let id = me.attr('uid');
+                    let cardid = me.attr('carid');
+                    console.log(cardid);
+                    // console.log(111);
+                    // console.log(id);
+                    $.getJSON("/index/likes", { wid: id, carid: cardid }, function (res) {
+                        console.log(res);
+                        if (res.likes == 1) {
+                            next.css("color", '');
+                            me.css("color", "red");
+                            next.html(+res.tread);
+                            me.html(res.num);
+                        } else {
+                            me.css("color", '');
+                            me.html(res.num);
+                            next.html(res.tread);
+                        }
+                    })
+                })
+                // 踩功能实现
+                $('.tread').click(function () {
+                    let me = $(this);
+                    let prev = me.prev();
+                    let id = me.attr('uid');
+                    let cardid = me.attr('carid');
+                    $.getJSON("/index/tread", { wid: id, carid: cardid }, function (res) {
+                        console.log(res);
+                        if (res.tread == 1) {
+                            me.css("color", "red");
+                            prev.css("color", '');
+                            me.html(res.num);
+                            prev.html(res.likes);
+                        } else {
+                            me.css("color", '');
+                            me.html(res.num);
+                            prev.html(res.likes);
+                        }
+                    })
+                })
+
+            </script>
+
+        </div>
+        <div class="col-md-3 layout-side">
+
+            <a class="btn side-btn" data-toggle="modal" data-target="#askquestion">我要发帖</a>
+
+            <div class="sidebox side-list related-question">
+                <div class="sidebox-header">
+                    <h4 class="sidebox-title">相关帖子</h4>
+                </div>
+                <div class="sidebox-body side-list-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+{/extend}

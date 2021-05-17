@@ -1,0 +1,172 @@
+{extend name='layout/public'}
+{block name='nav'}
+<div class="container layout layout-margin-top">
+
+    <ol class="breadcrumb">
+        <li><a href="/paths/">学习路径</a></li>
+        <li class="active"><a href="/paths/newhand">新手入门</a></li>
+    </ol>
+
+    <div class="row">
+        <div class="col-md-9 layout-body">
+
+
+            <div class="content" style="padding:0px">
+                <div class="path-description" style="margin:0px">
+                    <div class="path-desc-top clearfix"
+                        style="background: url('/static/frontdesk/img/1471513740139.png') no-repeat;background-size: cover;">
+                        <div class="name-total-box clearfix">
+                            <div class="col-md-6 col-sm-6 col-md-offset-1 path-name">
+                                <h4>{$res.name}</h4>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-md-offset-1 path-total-courses">
+                                <span class="total-courses-box">相关课程 <span class="num">{$counum}</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-md-offset-1 path-desc-text">
+                            {$res.cont}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="content">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#path-details" aria-controls="path-details" role="tab" data-toggle="tab"></a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#path-comments" aria-controls="path-comments" role="tab" data-stat="path_comments"
+                            data-toggle="tab"><span class="comments-count"></span></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane path-details active" id="path-details">
+                        <div class="details-box">
+                            <a href="/courses/63" class="btn start-btn">相关课程</a>
+
+                            <div class="row">
+
+
+                                {if empty($cour)}
+                                <h1>暂时没有相关课程敬请期待</h1>
+                                {/if}
+                                {foreach $cour as $k=>$v}
+                                <div class="col-md-4 col-sm-6  course">
+                                    <a class="course-box" href="/courses/63">
+                                        <div class="sign-box">
+
+
+
+                                            <i class="fa fa-star-o course-follow pull-right"
+                                                data-follow-url="/courses/63/follow"
+                                                data-unfollow-url="/courses/63/unfollow" style="display:none"></i>
+
+                                        </div>
+                                        <div class="course-body">
+                                            <span class="course-title" data-toggle="tooltip" data-placement="bottom"
+                                                title="{$v.name}">{$v.name}</span><span>添加时间{:date('Y-m-d
+                                                H:i:s',$v['time'])}</span>
+                                        </div>
+                                        <div class="course-footer">
+                                            {$v.info}<br>
+                                        </div>
+                                    </a>
+                                </div>
+                                {/foreach}
+                            </div>
+
+                            <div class="clearfix text-center path-title-box">
+                                <span class="line hidden-xs"></span>
+                                <span>本课程相关讲师</span>
+                                <span class="line hidden-xs"></span>
+                            </div>
+                            <div class="row">
+                                {foreach $tea as $k=>$v}
+                                <div class="col-md-4 col-sm-6  course">
+                                    <a class="course-box" href="/courses/20">
+                                        <div class="sign-box">
+                                            <i class="fa fa-star-o course-follow pull-right"
+                                                data-follow-url="/courses/20/follow"
+                                                data-unfollow-url="/courses/20/unfollow" style="display:none"></i>
+
+                                        </div>
+                                        <div class="course-img">
+
+                                            <img alt="" src="{$v.pic}">
+
+                                        </div>
+
+                                        <div class="course-body">
+                                            <span class="course-title" data-toggle="tooltip" data-placement="bottom"
+                                                title="数据结构(新版)">讲师:{$v.name}</span><span>资历:{$v.cer}</span>
+                                        </div>
+                                        <div class="course-footer"
+                                             style="table-layout: fixed;
+                                             word-wrap: break-all;
+                                             word-break: normal;
+                                             overflow: hidden;">
+
+                                            讲师介绍:{$v.info}<br>
+                                        
+                                        </div>
+                                    </a>
+                                </div>
+                                {/foreach}
+                            </div>                        
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane path-comment" id="path-comments">
+                        <div class="comment-box">
+                            <div class="comment-form">
+
+                                <div class="comment-form-unlogin">
+                                    请
+                                    <a href="#sign-modal" data-toggle="modal" data-sign="signin"> 登录 </a>
+                                    后发表评论
+                                </div>
+
+                            </div>
+                            <div class="comment-title">最新评论</div>
+                            <div class="comment-list"></div>
+                            <div class="pagination-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3 layout-side">
+
+
+                <!-- 引入右侧公共部分 -->
+                    {include file="include/right"}
+                   
+                <!--  -->
+            <div class="side-image side-qrcode">
+                <h5>相关动态</h5>
+              {foreach $news as $k=>$v}
+                <div class="side-image-text" style="font-size: 12px;">
+                    <p style="float:left;">标题:{$v.title}</p><br><p  style="float:left;">内容{$v.cont}</p>
+                </div>
+             {/foreach}
+            </div>
+         
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{/block}
+{/extend}

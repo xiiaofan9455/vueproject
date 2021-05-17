@@ -1,0 +1,270 @@
+{extend name='layout/public'}
+{block name='nav'}
+<div class="container layout layout-margin-top">
+
+
+    <div class="row">
+        <div class="col-md-9 layout-body">
+
+            <div class="content">
+
+                <ul class="nav nav-tabs question-types" role="tablist">
+
+
+                    <li role="presentation" class="active">
+                        <a href="#all" aria-controls="all" role="tab" toggle="tab">全部</a>
+                    </li>
+
+                    <li role="presentation">
+                        <a href="#course" aria-controls="course" role="tab" toggle="tab">课程问答</a>
+                    </li>
+
+                    <li role="presentation">
+                        <a href="#discussion" aria-controls="discussion" role="tab" toggle="tab">交流讨论</a>
+                    </li>
+
+                    <li role="presentation">
+                        <a href="#sharing" aria-controls="sharing" role="tab" toggle="tab">技术分享</a>
+                    </li>
+
+                    <li role="presentation">
+                        <a href="#labreport" aria-controls="labreport" role="tab" toggle="tab">实验报告</a>
+                    </li>
+
+                    <li role="presentation">
+                        <a href="#notice" aria-controls="notice" role="tab" toggle="tab">站内公告</a>
+                    </li>
+
+
+
+                    <div class="question-sort">
+                        <a class="active" href="/index/Discuss?desc=desc">最新</a></li>
+                        /
+                        <a href="/index/Discuss?view=desc">最热</a></li>
+                        /
+                        <a href="#unanswered">未回复</a></li>
+                    </div>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active">
+
+                        <ul class="row question-items">
+
+                        {foreach $res as $k=>$v}
+                            <li class="question-item">
+                                <div class="col-md-10">
+                                    <div class="col-sm-2 question-item-author">
+                                       <div class="user-avatar ">
+                                            <a class="avatar" href="../user/13/study.html" target="_blank">
+                                                
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <h4>
+                                            {if $v.level!=Null}
+                                            <img src="/static/frontdesk/img/topQuestion.png">
+                                            {/if}
+                                            <a  class="question-item-title vie" zhi="{$v.id}" href="/index/showdisu?id={$v.id}" target="_blank">
+                                                {$v.title}</a>
+
+                                        </h4>
+                                        <div class="question-item-summary">
+
+
+
+
+
+                                            <div class="user-username ">
+                                                <a class="avatar" href="../user/13/study.html" target="_blank">
+
+                                                 {$v.name}
+
+
+                                                </a>
+                                                <span class="user-level">L14</span>
+                                            </div>
+
+
+                                            <span class="question-item-date">{:date('Y-m-d H:i:s', $v.time)}</span>
+
+                                            最后回复 <span class="question-item-date">
+
+
+
+                                                <div class="user-username ">
+                                                    <a class="username" href="/user/256544" target="_blank">
+
+                                                        {$v.endname}
+
+
+                                                    </a>
+                                                    <span class="user-level">L38</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 question-item-rank">
+                                    <div class="question-item-answered">
+                                        <div>{$v.reply}</div>
+                                        <div>回复</div>
+                                    </div>
+                                    <div class="question-item-views">
+                                        <div>{$v.view}</div>
+                                        <div>查看</div>
+                                    </div>
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    <script src="/static/jquery-3.0.0.min.js"></script>
+                        <script>
+                           $('.vie').click(function(){
+                               var zhi=$(this).attr('zhi');
+                               console.log(zhi);
+                               $.get('/index/vienum',{id:zhi},function(res){
+                                 
+                               })
+                           })
+                        </script>
+
+
+
+                        <nav class="pagination-container">
+                            {$res->appends($can)->render()|raw}
+                        </nav>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3 layout-side">
+
+
+
+            <a class="btn side-btn" href="#dis">我要发帖</a>
+                {include file="include/right"}
+         
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div id="dis" >
+    <div class="modal-dialog" role=document>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">发帖</h4>
+            </div>
+            <div class="modal-body words-ctrl">
+                <form class="form-horizontal" action="/index/subdis" method="POST">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">标题</label>
+                        <div class="col-md-10">
+                            <input type="text" name="title" min="5" max="100" class="form-control" placeholder="至少输入5个字"
+                                value="">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">描述</label>
+                        <div class="col-md-10">
+
+
+
+                            <div class="tabpanel mkeditor">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#mkeditor-editor" role="tab" data-toggle="tab">编辑</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a class="mkeditor-btn-view" href="#mkeditor-viewer" role="tab"
+                                            data-toggle="tab">预览</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active mkeditor-editor" id="mkeditor-editor" role="tabpanel">
+
+                                        <div class="btn-group" role="group">
+
+                                            <button type="button" class="btn btn-default mkeditor-btn-bold">
+                                                <i class="fa fa-bold"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default mkeditor-btn-italic">
+                                                <i class="fa fa-italic"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default mkeditor-btn-link">
+                                                <i class="fa fa-link"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default mkeditor-btn-quote">
+                                                <i class="fa fa-quote-left"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default mkeditor-btn-code">
+                                                <i class="fa fa-code"></i>
+                                            </button>
+                                            <button id="mkeditor-pickfile" type="button"
+                                                class="btn btn-default mkeditor-btn-img">
+                                                <i class="fa fa-image"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-default mkeditor-btn-listol">
+                                                <i class="fa fa-list-ol"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default mkeditor-btn-listul">
+                                                <i class="fa fa-list-ul"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group pull-right" role="group">
+                                            <a style="font-size:12px; color:#666; text-decoration:underline;"
+                                                href="/questions/764" target="_blank">
+                                                <i class="fa fa-question-circle"></i>Markdown 语法
+                                            </a>
+                                        </div>
+                                        <textarea name="cont" class="cont" min="0" max="20000"
+                                            placeholder="推荐使用 Markdown 语法，至少输入 5 个字"></textarea>
+                                        <div class="help-block"></div>
+                                    </div>
+                                    <div class="tab-pane mkeditor-viewer markdown-body" id="mkeditor-viewer"
+                                        role="tabpanel">
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">板块</label>
+                        <div class="col-md-10">
+                            <div class="q-types" data-type="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a type="button" class="submit-question btn btn-primary" href="/vip" target="_blank"
+                            style="background:#FFFFFF;color:#00CC99;border:none;float:left;padding-left:0;"><img
+                                src="../img/senior-vip-icon.png" alt=""> 加入高级会员获得助教答疑</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="submit-question btn btn-primary" data-dismiss="modal">提交</button>
+                    </div>
+                </form>
+            </div>
+          
+        </div>
+    </div>
+</div>
+{/block}
+{/extend}

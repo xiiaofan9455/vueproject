@@ -1,0 +1,38 @@
+{extend name='layout/public'}
+{block name='nav'}
+<div class="container layout layout-margin-top">
+<div class="row">
+    <div class="col-md-9 layout-body">
+        
+<div class="content">
+    <div class="row">
+    {foreach $res as $k=>$v}
+    <div class="col-sm-6">
+        <a href="/index/list?id={$v.id}" target="_blank">
+            <div class="path-item">
+                <div class="col-xs-5 col-md-4  path-img">
+                    <img src="{$v.pic}">
+                </div>
+                <div class="col-xs-7 col-md-8">
+                    <div class="path-name">{$v.name}</div>
+                    <div class="path-course-num"><span>{$v.num}</span> 门课程</div>
+                </div>
+                <div class="desc-layer">
+                    <div class="center">{$v.cont}</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {/foreach}
+   
+    </div>
+</div>
+
+    </div>
+    <div class="col-md-3 layout-side">
+    {include file='include/right'}
+    </div>
+</div>
+</div>
+{/block}
+{/extend}
